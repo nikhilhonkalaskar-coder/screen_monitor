@@ -6,7 +6,7 @@ import socket
 
 # --- CONFIGURATION ---
 # IMPORTANT: Replace with YOUR PC's local IP address
-SERVER_URL = "http://192.168.1.126:5000/api/upload"
+SERVER_URL = "http://192.168.1.126:5000/api/upload_multi"
 CAPTURE_INTERVAL = 5  # Capture every 5 seconds
 
 # Get a unique ID for this computer
