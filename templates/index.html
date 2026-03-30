@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Screen Monitor - Live</title>
+    <style>
+        body { font-family: sans-serif; background-color: #222; color: #eee; margin: 0; padding: 20px; }
+        h1 { text-align: center; color: #fff; }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+            gap: 20px;
+        }
+        .employee-view {
+            background-color: #333;
+            border: 1px solid #555;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        .employee-header {
+            background-color: #444;
+            color: #fff;
+            padding: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            text-align: center;
+        }
+        .employee-view img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .no-employees {
+            text-align: center;
+            font-size: 1.2em;
+            color: #aaa;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Live Employee Activity Monitor</h1>
+    <p>Images refresh every 5 seconds.</p>
+
+    <div class="grid-container">
+        {% if employees %}
+            {% for employee_id in employees %}
+                <div class="employee-view">
+                    <div class="employee-header">{{ employee_id }}</div>
+                    <!-- Each image has a unique ID so JavaScript can find it -->
+                    <img id="img_{{ employee_id | replace('.', '_') | replace('-', '_') }}" 
+                         src="/latest/{{ employee_id }}.jpg" 
+                         alt="Latest screenshot for {{ employee_id }}">
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-employees">Waiting for employees to connect...</div>
+        {% endif %}
+    </div>
+
+    <script>
+        // Function to refresh all images on the page
+        function refreshImages() {
+            const images = document.querySelectorAll('.employee-view img');
+            images.forEach(img => {
+                // Add a timestamp to the URL to prevent browser caching
+                const newSrc = img.src.split('?')[0] + '?t=' + new Date().getTime();
+                img.src = newSrc;
+            });
+        }
+
+        // Refresh the images every 5 seconds (5000 milliseconds)
+        setInterval(refreshImages, 5000);
+    </script>
+
+</body>
+</html>

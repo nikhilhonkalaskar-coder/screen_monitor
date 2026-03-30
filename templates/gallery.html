@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screenshot Gallery</title>
+    <style>
+        body { font-family: sans-serif; background-color: #f0f0f0; margin: 0; padding: 20px; }
+        nav { background-color: #333; overflow: hidden; padding: 10px; margin-bottom: 20px; }
+        nav a { color: white; text-align: center; padding: 14px 20px; text-decoration: none; font-size: 17px; }
+        nav a:hover { background-color: #4CAF50; }
+        .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .gallery-item { background-color: white; border: 1px solid #ddd; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .gallery-item img { width: 100%; height: auto; display: block; }
+        .gallery-item p { text-align: center; padding: 10px; margin: 0; font-size: 0.9em; color: #555; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Live View</a>
+        <a href="/gallery">Gallery</a>
+    </nav>
+
+    <h1>Screenshot Gallery</h1>
+
+    <div class="gallery">
+        <!-- This is a Jinja2 template loop. Flask will replace this with actual images. -->
+        {% for image in images %}
+            <div class="gallery-item">
+                <!-- The 'url_for' function generates the correct link to the image -->
+                <a href="{{ url_for('uploaded_file', filename=image) }}" target="_blank">
+                    <img src="{{ url_for('uploaded_file', filename=image) }}" alt="Screenshot">
+                </a>
+                <p>{{ image }}</p>
+            </div>
+        {% endfor %}
+    </div>
+
+</body>
+</html>
